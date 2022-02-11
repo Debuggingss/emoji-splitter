@@ -1,12 +1,17 @@
 from PIL import Image
+from sys import argv
 import math
 import requests
 
-ENDSIZE = 128
 
-EMOJINAME = "zany"
+if len(argv) < 4:
+    print("usage: python splitter.py <image_url> <emoji_size> <emoji_name>")
+    exit(1)
 
-URL = "https://images.emojiterra.com/twitter/v13.0/512px/1f92a.png"
+URL = argv[1]
+ENDSIZE = int(argv[2])
+EMOJINAME = argv[3]
+
 
 print("Downloading Image...")
 r = requests.get(URL)
@@ -34,7 +39,8 @@ counter = 0
 
 for h in range(heightratio):
     for w in range(widthratio):
-        im1 = im.crop((w * ENDSIZE, h * ENDSIZE, w * ENDSIZE + ENDSIZE, h * ENDSIZE + ENDSIZE))
+        im1 = im.crop((w * ENDSIZE, h * ENDSIZE, w * ENDSIZE +
+                      ENDSIZE, h * ENDSIZE + ENDSIZE))
         im1.save(f"{EMOJINAME}_{counter}.png")
         counter += 1
 
